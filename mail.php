@@ -4,43 +4,58 @@
 //These must be at the top of your script, not inside a function
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
- 
-//required files
+
 require 'phpmailer/src/Exception.php';
 require 'phpmailer/src/PHPMailer.php';
 require 'phpmailer/src/SMTP.php';
- 
-//Create an instance; passing `true` enables exceptions
+
 if (isset($_POST["send"])) {
- 
-  $mail = new PHPMailer(true);
- 
-    //Server settings
-    $mail->isSMTP();                              //Send using SMTP
-    $mail->Host       = 'smtp.gmail.com';       //Set the SMTP server to send through
-    $mail->SMTPAuth   = true;             //Enable SMTP authentication
-    $mail->Username   = 'teste@gmail.com';   //SMTP write your email
-    $mail->Password   = '';      //SMTP password
-    $mail->SMTPSecure = 'ssl';            //Enable implicit SSL encryption
-    $mail->Port       = 465;                                    
- 
-    //Recipients
-    $mail->setFrom( $_POST["email"], $_POST["name"]); // Sender Email and name
-    $mail->addAddress($_POST["email"]);     //Add a recipient email  
-    $mail->addReplyTo($_POST["email"], $_POST["name"]); // reply to sender email
- 
-    //Content
-    $mail->isHTML(true);               //Set email format to HTML
-    $mail->Subject = $_POST["subject"];   // email subject headings
-    $mail->Body    = $_POST["message"]; //email message
-      
-    // Success sent message alert
-    $mail->send();
-    echo
-    " 
-    <script> 
-     alert('Mensagem enviada com sucesso!');
-     document.location.href = 'index.php';
-    </script>
-    ";
+    $mail = new PHPMailer(true);
+
+    try {
+        // Configurações do servidor
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.gmail.com';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'teste@gmail.com';
+        $mail->Password   = '';
+        $mail->SMTPSecure = 'ssl';
+        $mail->Port       = 465;
+
+        // Configurações do remetente e destinatários
+        $mail->setFrom($_POST["email"], $_POST["name"]);
+        $mail->addAddress($_POST["email"]);
+        $mail->addReplyTo($_POST["email"], $_POST["name"]);
+
+        // Verifica se um arquivo foi anexado
+        if (isset($_FILES['attachment']) && $_FILES['attachment']['error'] == UPLOAD_ERR_OK) {
+            $fileTmpPath = $_FILES['attachment']['tmp_name'];
+            $fileName = $_FILES['attachment']['name'];
+            $fileSize = $_FILES['attachment']['size'];
+            $fileType = $_FILES['attachment']['type'];
+            $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+
+            // Apenas anexar se o arquivo for PDF
+            if ($fileExtension == 'pdf') {
+                $mail->addAttachment($fileTmpPath, $fileName);
+            }
+        }
+
+        // Conteúdo do email
+        $mail->isHTML(true);
+        $mail->Subject = $_POST["subject"];
+        $mail->Body    = $_POST["message"];
+
+        // Envia o email
+        $mail->send();
+        echo "
+        <script> 
+            alert('Mensagem enviada com sucesso!');
+            document.location.href = 'index.php';
+        </script>
+        ";
+    } catch (Exception $e) {
+        echo "Erro ao enviar a mensagem: {$mail->ErrorInfo}";
+    }
+}
 }
