@@ -26,7 +26,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit();
     }
 
-    // Hash the password using MD5
     $senha_hashed = md5($senha);
 
 

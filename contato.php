@@ -22,32 +22,37 @@ require_once('sidebar.php');
                 </div>
             </div>
             <div class="card-body">
-                <form class="user" action="" method="post" >
-                   <div class="form-group">
-                        <label> Nome Completo </label>
-                        <input type="text" class="form-control form-control-user" id="name" name="name" value="TESTE" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label> Email </label>
-                        <input type="text" class="form-control form-control-user" id="email" name="email" value="teste@gmail.com" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label> Assunto </label>
-                        <input type="text" class="form-control form-control-user" id="subject" name="subject" required>
-                    </div>
-                    <div class="form-group">
-                        <label> Mensagem </label>
-                        <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
-                    </div>
-                                        
+            <form action="mail.php" method="POST" class="user">
+                <div class="form-group">
+                    <label for="name">Digite seu nome</label>
+                    <input type="text" class="form-control form-control-user" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Digite o email</label>
+                    <input type="email" class="form-control form-control-user" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="subject">Digite o assunto</label>
+                    <input type="text" class="form-control form-control-user" id="subject" name="subject" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Digite a mensagem</label>
+                    <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                </div>
 
-                    <div class="card-footer text-muted" id="btn-form">
-                        <div class=text-right>
-                            <a title="Voltar" href="home.php"><button type="button" class="btn btn-success"><i class="fas fa-arrow-circle-left"></i>&nbsp;</i>Voltar</button></a>
-                            <a title="Enviar"><button type="submit" name="updatebtn" class="btn btn-primary uptadebtn"><i class="fa fa-envelope">&nbsp;</i>Enviar</button> </a>
-                        </div>
+                <div class="card-footer text-muted" id="btn-form">
+                    <div class="text-right">
+                        <a title="Voltar" href="home.php">
+                            <button type="button" class="btn btn-success">
+                                <i class="fas fa-arrow-circle-left"></i>&nbsp;Voltar
+                            </button>
+                        </a>
+                        <button type="submit" name="send" class="btn btn-primary">
+                            <i class="fa fa-envelope">&nbsp;</i>Enviar
+                        </button>
                     </div>
-                </form>  
+                </div>
+            </form>
             </div>
         </div>
 
