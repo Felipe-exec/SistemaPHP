@@ -1,7 +1,7 @@
 <?php
- 
-//Import PHPMailer classes into the global namespace
-//These must be at the top of your script, not inside a function
+
+// Import PHPMailer classes into the global namespace
+// These must be at the top of your script, not inside a function
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -18,7 +18,7 @@ if (isset($_POST["send"])) {
         $mail->Host       = 'smtp.gmail.com';
         $mail->SMTPAuth   = true;
         $mail->Username   = 'teste@gmail.com';
-        $mail->Password   = '';
+        $mail->Password   = ''; // Lembre-se de adicionar a senha correta
         $mail->SMTPSecure = 'ssl';
         $mail->Port       = 465;
 
@@ -57,5 +57,5 @@ if (isset($_POST["send"])) {
     } catch (Exception $e) {
         echo "Erro ao enviar a mensagem: {$mail->ErrorInfo}";
     }
-}
-}
+} // Removi a chave extra aqui
+?>
